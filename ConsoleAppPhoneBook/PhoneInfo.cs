@@ -17,24 +17,59 @@ namespace ConsoleAppPhoneBook
         public PhoneInfo(string name, string num)
         {
             //필수 2개
-            this.name = name;
-            phoneNumber = num;   
+            this.Name = name;
+            phoneNumber = num;
         }
         public PhoneInfo(string name, string num, string birth)
         {
             //3개
-            this.name = name;
+            this.Name = name;
             phoneNumber = num;
             this.birth = birth;
         }
 
-        public void ShowPhoneInfo()
+        public string Name { get => name; set => name = value; }
+
+        public virtual void ShowPhoneInfo()
         {
-            Console.Write("이름 : "+name+" ");
+            Console.Write("이름 : " + Name + " ");
             Console.Write("전화번호 : " + phoneNumber + " ");
             Console.WriteLine("생일 : " + birth);
 
         }
-        
+        //ToString()을 override해서 PhoneUnivInfo에서 사용해 보기
     }
+
+    public class PhoneUnivInfo : PhoneInfo
+    {
+        string major;
+        int year;
+
+        public PhoneUnivInfo(string name, string phoneNumber, string major, int year) : base(name, phoneNumber)
+        {
+            this.major = major;
+            this.year = year;
+        }
+
+        public override void ShowPhoneInfo()
+        {
+            base.ShowPhoneInfo();
+        }
+    }
+    public class PhoneCompanyInfo : PhoneInfo
+    {
+        string company;
+        public PhoneCompanyInfo(string name, string num, string company) : base(name, num)
+        {
+            this.company = company;
+        }
+
+        public override void ShowPhoneInfo()
+        {
+            base.ShowPhoneInfo();
+        }
+        //public void
+
+
+    } 
 }
