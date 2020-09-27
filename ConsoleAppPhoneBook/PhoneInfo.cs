@@ -6,38 +6,61 @@ using System.Threading.Tasks;
 
 namespace ConsoleAppPhoneBook
 {
-    public class PhoneInfo
+    public class PhoneInfo //: IComparable
     {
-        string name; //필수
-        string phoneNumber; //필수
-        string birth; //선택
+        string name;   //필수
+        string phoneNumber;  //필수
+        string birth;  //선택
 
-        PhoneBookManager manager = new PhoneBookManager();
-
-        public PhoneInfo(string name, string num)
+        public string Name
         {
-            //필수 2개
-            this.Name = name;
-            phoneNumber = num;
+            get { return name; }
         }
-        public PhoneInfo(string name, string num, string birth)
+
+        public string Phone
         {
-            //3개
-            this.Name = name;
-            phoneNumber = num;
+            get { return phoneNumber; }
+        }
+
+        public PhoneInfo(string name, string phoneNumber)
+        {
+            this.name = name;
+            this.phoneNumber = phoneNumber;
+            this.birth = null;
+        }
+
+        public PhoneInfo(string name, string phoneNumber, string birth)
+        {
+            this.name = name;
+            this.phoneNumber = phoneNumber;
             this.birth = birth;
         }
 
-        public string Name { get => name; set => name = value; }
-
         public virtual void ShowPhoneInfo()
         {
-            Console.Write("이름 : " + Name + " ");
-            Console.Write("전화번호 : " + phoneNumber + " ");
-            Console.WriteLine("생일 : " + birth);
-
+            Console.Write("name: " + this.name);
+            Console.Write("\t phone: " + this.phoneNumber);
+            if (birth != null)
+                Console.Write("\t birth: " + this.birth);
         }
-        //ToString()을 override해서 PhoneUnivInfo에서 사용해 보기
+
+        public override string ToString()
+        {
+            return $"name:{name}\t phone:{phoneNumber}\t birth:{birth}";
+        }
+
+        //public int CompareTo(object obj)
+        //{
+        //    PhoneInfo other = (PhoneInfo)obj;
+        //    return this.name.CompareTo(other.name);
+
+        //    //if (this.name.CompareTo(other.name) == 1)
+        //    //    return 1;
+        //    //else if (this.name.CompareTo(other.name) == -1)
+        //    //    return -1;
+        //    //else
+        //    //    return 0;
+        //}
     }
 
     public class PhoneUnivInfo : PhoneInfo
@@ -45,7 +68,8 @@ namespace ConsoleAppPhoneBook
         string major;
         int year;
 
-        public PhoneUnivInfo(string name, string phoneNumber, string major, int year) : base(name, phoneNumber)
+        public PhoneUnivInfo(string name, string phonenumber, string birth, string major, int year)
+            : base(name, phonenumber, birth)
         {
             this.major = major;
             this.year = year;
@@ -54,12 +78,21 @@ namespace ConsoleAppPhoneBook
         public override void ShowPhoneInfo()
         {
             base.ShowPhoneInfo();
+            Console.Write($"major:{major}\t year:{year}");
+        }
+
+        public override string ToString()
+        {
+            return $"{base.ToString()}\t major:{major}\t year:{year}";
         }
     }
+
     public class PhoneCompanyInfo : PhoneInfo
     {
         string company;
-        public PhoneCompanyInfo(string name, string num, string company) : base(name, num)
+
+        public PhoneCompanyInfo(string name, string phonenumber, string birth, string company)
+                               : base(name, phonenumber, birth)
         {
             this.company = company;
         }
@@ -67,9 +100,12 @@ namespace ConsoleAppPhoneBook
         public override void ShowPhoneInfo()
         {
             base.ShowPhoneInfo();
+            Console.Write($"company:{company}");
         }
-        //public void
 
-
-    } 
+        public override string ToString()
+        {
+            return $"{base.ToString()}\t company:{company}";
+        }
+    }
 }
